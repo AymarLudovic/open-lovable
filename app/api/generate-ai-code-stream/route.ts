@@ -965,7 +965,7 @@ if (global.sandboxState?.fileCache) { // <--- AJOUTEZ CETTE LIGNE
   }
 } 
                   
-                  if (filesData.manifest) {
+                  if (filesData.manifest && global.sandboxState?.fileCache) {
                     global.sandboxState.fileCache.manifest = filesData.manifest;
                     
                     // Now try to analyze edit intent with the fetched manifest
