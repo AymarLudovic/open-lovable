@@ -5,7 +5,7 @@ export interface CodeApplicationState {
   stage: 'analyzing' | 'installing' | 'applying' | 'complete' | null;
   packages?: string[];
   installedPackages?: string[];
-  filesGenerated?: string[];
+  filesGenerated?: number;
   message?: string;
 }
 
