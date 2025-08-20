@@ -621,12 +621,15 @@ Tip: I automatically detect and install npm packages from your code imports (lik
       // Process final data
       if (finalData && finalData.type === 'complete') {
         const data = {
-          success: true,
-          results: finalData.results,
-          explanation: finalData.explanation,
-          structure: finalData.structure,
-          message: finalData.message
-        };
+  success: true,
+  results: finalData.results,
+  explanation: finalData.explanation,
+  structure: finalData.structure,
+  message: finalData.message,
+  autoCompleted: finalData.autoCompleted, // <--- AJOUTEZ CETTE LIGNE
+  autoCompletedComponents: finalData.autoCompletedComponents, // <--- AJOUTEZ CELLE-CI
+  warning: finalData.warning // <--- ET CELLE-CI
+};
         
         if (data.success) {
           const { results } = data;
