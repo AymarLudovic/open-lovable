@@ -167,7 +167,7 @@ export async function POST(request: NextRequest) {
           
           const manifest: FileManifest | undefined = global.sandboxState?.fileCache?.manifest;
           
-          if (manifest) {
+          if (manifest && global.sandboxState?.fileCache) {
             await sendProgress({ type: 'status', message: '🔍 Creating search plan...' });
             
             const fileContents = global.sandboxState.fileCache.files;
