@@ -119,7 +119,7 @@ export default function AISandboxPage() {
     thinkingText?: string;
     thinkingDuration?: number;
     currentFile?: { path: string; content: string; type: string };
-    files: Array<{ path: string; content: string; type: string; completed: boolean }>;
+    files: Array<{ path: string; content: string; type: string; completed: boolean; edited?: boolean }>;
     lastProcessedPosition: number;
     isEdit?: boolean;
   }>({
