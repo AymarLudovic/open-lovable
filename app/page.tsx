@@ -529,9 +529,9 @@ Tip: I automatically detect and install npm packages from your code imports (lik
                     });
                   } else if (data.message.includes('Creating files') || data.message.includes('Applying')) {
                     setCodeApplicationState({ 
-                      stage: 'applying',
-                      filesGenerated: results.filesCreated 
-                    });
+  stage: 'applying',
+  filesGenerated: generationProgress.files.length
+});
                   }
                   break;
                   
