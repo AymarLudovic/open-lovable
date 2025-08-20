@@ -5,7 +5,8 @@ import { createOpenAI } from '@ai-sdk/openai';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { generateObject } from 'ai';
 import { z } from 'zod';
-import type { FileManifest } from '@/types/file-manifest';
+// La ligne suivante a été supprimée car 'FileManifest' n'était pas utilisé.
+// import type { FileManifest } from '@/types/file-manifest';
 
 const groq = createGroq({
   apiKey: process.env.GROQ_API_KEY,
@@ -19,6 +20,11 @@ const anthropic = createAnthropic({
 const openai = createOpenAI({
   apiKey: process.env.OPENAI_API_KEY,
   baseURL: process.env.OPENAI_BASE_URL,
+});
+
+// CORRECTIF : Initialiser le fournisseur Google ici
+const google = createGoogleGenerativeAI({
+  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY, // Assurez-vous que cette variable d'environnement est configurée
 });
 
 // Schema for the AI's search plan - not file selection!
@@ -65,8 +71,9 @@ export async function POST(request: NextRequest) {
     }
     
     // Create a summary of available files for the AI
+    // CORRECTIF : Remplacé 'info' par '_info' car il n'était pas utilisé dans la condition de filtrage
     const validFiles = Object.entries(manifest.files as Record<string, any>)
-      .filter(([path, info]) => {
+      .filter(([path, _info]) => {
         // Filter out invalid paths
         return path.includes('.') && !path.match(/\/\d+$/);
       });
@@ -74,7 +81,7 @@ export async function POST(request: NextRequest) {
     const fileSummary = validFiles
       .map(([path, info]: [string, any]) => {
         const componentName = info.componentInfo?.name || path.split('/').pop();
-        const hasImports = info.imports?.length > 0;
+        // CORRECTIF : La variable 'hasImports' a été supprimée car elle n'était pas utilisée.
         const childComponents = info.componentInfo?.childComponents?.join(', ') || 'none';
         return `- ${path} (${componentName}, renders: ${childComponents})`;
       })
@@ -104,7 +111,9 @@ export async function POST(request: NextRequest) {
         aiModel = openai(model.replace('openai/', ''));
       }
     } else if (model.startsWith('google/')) {
-      aiModel = createGoogleGenerativeAI(model.replace('google/', ''));
+      // CORRECTIF PRINCIPAL : Utiliser le fournisseur 'google' initialisé plus haut
+      // pour obtenir le modèle spécifique. Ceci résout l'erreur de type.
+      aiModel = google(model.replace('google/', ''));
     } else {
       // Default to groq if model format is unclear
       aiModel = groq(model);
@@ -114,7 +123,7 @@ export async function POST(request: NextRequest) {
     
     // Use AI to create a search plan
     const result = await generateObject({
-      model: aiModel,
+      model: aiModel, // L'erreur de type est maintenant corrigée
       schema: searchPlanSchema,
       messages: [
         {
@@ -177,4 +186,4 @@ Create a search plan to find the exact code that needs to be modified. Include s
       error: (error as Error).message
     }, { status: 500 });
   }
-}
+  }
