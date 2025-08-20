@@ -626,9 +626,10 @@ Tip: I automatically detect and install npm packages from your code imports (lik
   explanation: finalData.explanation,
   structure: finalData.structure,
   message: finalData.message,
-  autoCompleted: finalData.autoCompleted, // <--- AJOUTEZ CETTE LIGNE
-  autoCompletedComponents: finalData.autoCompletedComponents, // <--- AJOUTEZ CELLE-CI
-  warning: finalData.warning // <--- ET CELLE-CI
+  autoCompleted: finalData.autoCompleted,
+  autoCompletedComponents: finalData.autoCompletedComponents,
+  warning: finalData.warning,
+  missingImports: finalData.missingImports // <--- AJOUTEZ CETTE LIGNE
 };
         
         if (data.success) {
