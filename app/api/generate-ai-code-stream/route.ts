@@ -1593,17 +1593,11 @@ Provide the complete file content without any truncation. Include all necessary 
                 
                 // Make a focused API call to complete this specific file
                 // Create a new client for the completion based on the provider
-                let completionClient;
-                if (model.includes('gpt') || model.includes('openai')) {
-                  completionClient = openai;
-                } else if (model.includes('claude')) {
-                  completionClient = anthropic;
-                } else {
-                  completionClient = groq;
-                }
+                
                 
                 const completionResult = await streamText({
-                  model: completionClient(modelMapping[model] || model),
+                  
+                  model: modelProvider(actualModel),
                   messages: [
                     { 
                       role: 'system', 
