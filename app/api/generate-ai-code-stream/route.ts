@@ -1606,7 +1606,7 @@ Provide the complete file content without any truncation. Include all necessary 
                     { role: 'user', content: completionPrompt }
                   ],
                   temperature: isOpenAI ? undefined : appConfig.ai.defaultTemperature,
-                  maxTokens: appConfig.ai.truncationRecoveryMaxTokens
+                  experimental_providerMetadata: { openai: { max_tokens: appConfig.ai.truncationRecoveryMaxTokens }, anthropic: { max_tokens: appConfig.ai.truncationRecoveryMaxTokens }, groq: { max_tokens: appConfig.ai.truncationRecoveryMaxTokens } }
                 });
                 
                 // Get the full text from the stream
