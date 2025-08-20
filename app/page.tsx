@@ -2996,7 +2996,7 @@ Focus on the key sections and content, making it clean and modern.`;
                 >
                   {appConfig.ai.availableModels.map(model => (
                     <option key={model} value={model}>
-                      {appConfig.ai.modelDisplayNames[model] || model}
+                     appConfig.ai.modelDisplayNames[model as keyof typeof appConfig.ai.modelDisplayNames]
                     </option>
                   ))}
                 </select>
