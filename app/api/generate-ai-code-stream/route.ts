@@ -1595,19 +1595,25 @@ Provide the complete file content without any truncation. Include all necessary 
                 // Create a new client for the completion based on the provider
                 
                 
-                const completionResult = await streamText({
-                  
-                  model: modelProvider(actualModel),
-                  messages: [
-                    { 
-                      role: 'system', 
-                      content: 'You are completing a truncated file. Provide the complete, working file content.'
-                    },
-                    { role: 'user', content: completionPrompt }
-                  ],
-                  temperature: isOpenAI ? undefined : appConfig.ai.defaultTemperature,
-                  experimental_providerMetadata: { openai: { max_tokens: appConfig.ai.truncationRecoveryMaxTokens }, anthropic: { max_tokens: appConfig.ai.truncationRecoveryMaxTokens }, groq: { max_tokens: appConfig.ai.truncationRecoveryMaxTokens } }
-                });
+                
+const completionOptions: any = {
+  model: modelProvider(actualModel),
+  messages: [
+    { 
+      role: 'system', 
+      content: 'You are completing a truncated file. Provide the complete, working file content.'
+    },
+    { role: 'user', content: completionPrompt }
+  ],
+  temperature: isOpenAI ? undefined : appConfig.ai.defaultTemperature,
+  experimental_providerMetadata: { 
+    openai: { max_tokens: appConfig.ai.truncationRecoveryMaxTokens },
+    anthropic: { max_tokens: appConfig.ai.truncationRecoveryMaxTokens },
+    groq: { max_tokens: appConfig.ai.truncationRecoveryMaxTokens }
+  }
+};
+
+const completionResult = await streamText(completionOptions);
                 
                 // Get the full text from the stream
                 let completedContent = '';
